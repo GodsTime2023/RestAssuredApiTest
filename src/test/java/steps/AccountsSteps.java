@@ -48,7 +48,7 @@ public class AccountsSteps {
 
         Response response = ApiClient.sendRequest(
                 method,
-                endpoint,
+                endpoint.equals("books") ? ConfigReader.getProperty("bookstore.api.books") : endpoint,
                 testContext.AddHeaders("application/json", true),
                 finalJsonBody);
 
@@ -67,7 +67,7 @@ public class AccountsSteps {
         // --- 2. Send the request to the GenerateToken endpoint ---
         Response response = ApiClient.sendRequest(
                 "POST",
-                "/Account/v1/GenerateToken",
+                ConfigReader.getProperty("account.api.token"),
                 // No authorization header needed for this endpoint
                 testContext.AddHeaders("application/json", false),
                 finalRequestBody
@@ -106,7 +106,7 @@ public class AccountsSteps {
         // --- 2. Send the User Creation Request ---
         Response response = ApiClient.sendRequest(
                 "POST",
-                "/Account/v1/User",
+                ConfigReader.getProperty("account.api.newUser"),
                 testContext.AddHeaders("application/json", false),
                 new ObjectMapper().writeValueAsString(requestBody));
 
@@ -136,7 +136,7 @@ public class AccountsSteps {
 
         Response response = ApiClient.sendRequest(
                 method,
-                "/Account/v1/User/" + finalEndpoint,
+                ConfigReader.getProperty("account.api.newUser") + finalEndpoint,
                 testContext.AddHeaders("application/json", true),
                 null
         );
@@ -160,7 +160,7 @@ public class AccountsSteps {
         // --- 2. Send the request to the GenerateToken endpoint ---
         Response response = ApiClient.sendRequest(
                 "POST",
-                "/Account/v1/GenerateToken",
+                ConfigReader.getProperty("account.api.token"),
                 // No authorization header needed for this endpoint
                 testContext.AddHeaders("application/json", false),
                 finalRequestBody

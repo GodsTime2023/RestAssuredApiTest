@@ -3,15 +3,15 @@ Feature: Books Test
 
   Scenario: Get all books
     Given I have access to the Bookstore API
-    When I send a "GET" request to "/BookStore/v1/Books"
+    When I send a "GET" request to "books"
     Then I should receive a 200 OK response
     And the response should contain a list of books
 
 
   Scenario: Get a single books
     Given I have access to the Bookstore API
-    When I send a "GET" request to "/BookStore/v1/Books"
-    And I send a "GET" request to "/BookStore/v1/Book" with "?ISBN="
+    When I send a "GET" request to "books"
+    And I send a "GET" request to book endpoint with "?ISBN="
     Then I should receive a 200 OK response
     And the response should contain the following
       | isbn          | 9781449325862 |
@@ -31,7 +31,7 @@ Feature: Books Test
       | password | Test@1234 |
     Then I should receive a 201 OK response
     And I generate user token
-    When I send a "POST" request to "/BookStore/v1/Books" with body
+    When I send a "POST" request to "books" with body
       | userId            | {0}                                                 |
       | collectionOfIsbns | [{"isbn":"9781449325862"},{"isbn":"9781449331818"}] |
     Then I should receive a 201 OK response

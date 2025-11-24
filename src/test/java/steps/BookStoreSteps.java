@@ -9,6 +9,7 @@ import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import utility.config.ApiClient;
 import models.BookResponse;
+import utility.config.ConfigReader;
 import utility.config.TestContext;
 
 import java.util.HashMap;
@@ -33,13 +34,15 @@ public class BookStoreSteps {
     public void i_send_a_get_request_to_(String method, String endpoint){
         testContext.setResponse(ApiClient.sendRequest(
                 method,
-                endpoint,
+                endpoint.equals("books")
+                        ? ConfigReader.getProperty("bookstore.api.books")
+                        : endpoint + testContext.getUserId(),
                 testContext.AddHeaders("application/json", false),
                 null));
     }
 
-    @And("I send a {string} request to {string} with {string}")
-    public void iSendARequestToWith(String method, String endpoint, String body) {
+    @And("I send a {string} request to book endpoint with {string}")
+    public void iSendARequestToWith(String method, String body) {
         String isbn  = "";
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -48,7 +51,10 @@ public class BookStoreSteps {
         } catch (Exception e) {
             throw new RuntimeException("Failed to deserialize response", e);
         }
-        testContext.setResponse(ApiClient.sendRequest(method, endpoint + body + isbn, testContext.AddHeaders("application/json", false),null));
+        testContext.setResponse(ApiClient.sendRequest(
+                method,
+                ConfigReader.getProperty("bookstore.api.book") + body + isbn,
+                testContext.AddHeaders("application/json", false),null));
     }
 
     @Then("^I should receive a (\\d+) OK response$")
