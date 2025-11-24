@@ -119,4 +119,69 @@ public class AccountsSteps {
             System.err.println("User creation failed. Status: " + response.getStatusCode() + " Body: " + response.getBody().asString());
         }
     }
+
+    @When("I send a {string} request to account user endpoint {string}")
+    public void iSendARequestToAccountUserEndpoint(String method, String endpoint) {
+        Map<String, String> headers = testContext.AddHeaders("application/json", true);
+
+        String finalEndpoint = endpoint;
+        if (endpoint.contains("{0}")) {
+            String userId = testContext.getUserId();
+            if (userId == null) {
+                throw new IllegalStateException("Cannot run GET /User/{0}: userId is not stored in context.");
+            }
+            finalEndpoint = endpoint.replace("{0}", userId);
+        }
+
+        Response response = ApiClient.sendRequest(
+                method,
+                finalEndpoint,
+                testContext.AddHeaders("application/json", true),
+                null
+        );
+
+        testContext.setResponse(response);
+
+        System.out.println("DEBUG: GET Request URL: " + endpoint);
+        System.out.println("DEBUG: GET Response Status: " + response.getStatusCode());
+        System.out.println("DEBUG: GET Response Body: " + response.getBody().asString());
+    }
+
+    @And("I generate user token with existing username and password")
+    public void iGenerateUserTokenWithExistingUsernameAndPassword(DataTable dataTable) throws JsonProcessingException {
+        var requestBody = testContext.GetTableData(dataTable);
+
+        // --- 1. Define Request Body using stored credentials ---
+        Map<String, String> tokenRequestBody = new HashMap<>();
+        tokenRequestBody.put("userName", requestBody.get("userName"));
+        tokenRequestBody.put("password", requestBody.get("password"));
+
+        String finalRequestBody = new ObjectMapper().writeValueAsString(tokenRequestBody);
+
+        // --- 2. Send the request to the GenerateToken endpoint ---
+        Response response = ApiClient.sendRequest(
+                "POST",
+                "/Account/v1/GenerateToken",
+                // No authorization header needed for this endpoint
+                testContext.AddHeaders("application/json", false),
+                finalRequestBody
+        );
+
+        // --- 3. Set the response so the next Then step can validate the status
+        testContext.setResponse(response);
+
+        // --- 4. Validate and Extract the Token ---
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("Failed to generate token. Status: " + response.statusCode() +
+                    ". Body: " + response.getBody().asString());
+        }
+
+        // 4. Extract the Bearer Token (JWT) from the NEW response
+        String jwtToken = response.jsonPath().getString("token");
+
+        // 5. Store the JWT in the context
+        testContext.setToken(jwtToken);
+
+        System.out.println("DEBUG: Token Set in Context: " + jwtToken);
+    }
 }
