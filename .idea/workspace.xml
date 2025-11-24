@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e0df288-a368-4ee2-aa75-daa9aff69b62" name="Changes" comment="Added : Add list of Books to User &#10;Refactored feature file steps and updated stepdefinition and testcontext">
+    <list default="true" id="0e0df288-a368-4ee2-aa75-daa9aff69b62" name="Changes" comment="Added : Get account user by existing UUID">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/features/Account.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/features/Account.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/steps/AccountsSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/steps/AccountsSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,16 +199,50 @@
       <option name="project" value="LOCAL" />
       <updated>1763987623662</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added : Get account user by existing UUID">
+      <option name="closed" value="true" />
+      <created>1763992408032</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1763992408032</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit - Added scenarios. Bookstore and Account" />
     <MESSAGE value="Refactored and updated testcontext" />
     <MESSAGE value="Added : Add list of Books to User &#10;Refactored feature file steps and updated stepdefinition and testcontext" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added : Add list of Books to User &#10;Refactored feature file steps and updated stepdefinition and testcontext" />
+    <MESSAGE value="Added : Get account user by existing UUID" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added : Get account user by existing UUID" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="&quot;Cucumber+&quot;!=null" />
+          <url>file://$PROJECT_DIR$/src/test/java/steps/AccountsSteps.java</url>
+          <line>133</line>
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="tzatziki.gherkin.step">
+          <url>file://$PROJECT_DIR$/src/test/java/features/Account.feature</url>
+          <line>23</line>
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <condition expression="&quot;Cucumber+&quot;!=null" />
+          <url>file://$PROJECT_DIR$/src/test/java/steps/AccountsSteps.java</url>
+          <line>124</line>
+          <properties class="steps.AccountsSteps" method="iSendARequestToAccountUserEndpoint">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="135" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="io.restassured.internal.RestAssuredResponseImpl" memberName="groovyResponse" />

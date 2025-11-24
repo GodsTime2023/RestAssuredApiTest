@@ -15,13 +15,11 @@ Feature: Accounts Test
         | password | Test@1234   |
     Then I should receive a 201 OK response
     And I generate user token
-    When I send a "GET" request to account user endpoint "/Account/v1/User/{0}"
+    When I send a "GET" request to account user endpoint "{0}"
     Then I should receive a 200 OK response
 
   Scenario: Get account user by existing UUID
     Given I have access to the Bookstore API
     And I generate user token with existing username and password
-      | userName | JoeEazzy     |
-      | password | Password001! |
-    When I send a "GET" request to account user endpoint "/Account/v1/User/2695e36d-1357-440d-9735-a8c1cfeed563"
+    When I send a "GET" request to account user endpoint "2695e36d-1357-440d-9735-a8c1cfeed563"
     Then I should receive a 200 OK response

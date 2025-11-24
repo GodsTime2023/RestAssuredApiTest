@@ -9,6 +9,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import utility.config.ApiClient;
+import utility.config.ConfigReader;
 import utility.config.TestContext;
 
 import java.util.HashMap;
@@ -135,7 +136,7 @@ public class AccountsSteps {
 
         Response response = ApiClient.sendRequest(
                 method,
-                finalEndpoint,
+                "/Account/v1/User/" + finalEndpoint,
                 testContext.AddHeaders("application/json", true),
                 null
         );
@@ -148,13 +149,11 @@ public class AccountsSteps {
     }
 
     @And("I generate user token with existing username and password")
-    public void iGenerateUserTokenWithExistingUsernameAndPassword(DataTable dataTable) throws JsonProcessingException {
-        var requestBody = testContext.GetTableData(dataTable);
-
+    public void iGenerateUserTokenWithExistingUsernameAndPassword() throws JsonProcessingException {
         // --- 1. Define Request Body using stored credentials ---
         Map<String, String> tokenRequestBody = new HashMap<>();
-        tokenRequestBody.put("userName", requestBody.get("userName"));
-        tokenRequestBody.put("password", requestBody.get("password"));
+        tokenRequestBody.put("userName", ConfigReader.getProperty("bookstore.api.existingUserName"));
+        tokenRequestBody.put("password", ConfigReader.getProperty("bookstore.api.existingPassword"));
 
         String finalRequestBody = new ObjectMapper().writeValueAsString(tokenRequestBody);
 
