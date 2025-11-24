@@ -1,6 +1,7 @@
 package utility.config;
 
 import io.restassured.RestAssured;
+import io.restassured.parsing.Parser;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
@@ -15,15 +16,27 @@ public class ApiClient {
     }
 
     public static Response sendRequest(String method, String endpoint, Map<String, String> headers, Object body) {
+        RequestSpecification request = requestSpecification.headers(headers);
+
+        if (!"GET".equalsIgnoreCase(method) && body != null) {
+            request = request.body(body);
+        }
+        Response response;
+
         switch (method.toUpperCase()) {
             case "GET":
-                return requestSpecification.headers(headers).get(endpoint);
+                response = request.get(endpoint);
+                break;
             case "POST":
-                return requestSpecification.headers(headers).body(body).post(endpoint);
+                response = request.post(endpoint);
+                break;
             case "PUT":
-                return requestSpecification.headers(headers).body(body).put(endpoint);
+                response = request.put(endpoint);
+                break;
             default:
                 throw new IllegalArgumentException("Unsupported HTTP method: " + method);
         }
+
+        return response.then().using().defaultParser(Parser.JSON).extract().response();
     }
 }

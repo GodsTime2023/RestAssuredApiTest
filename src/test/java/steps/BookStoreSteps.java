@@ -31,8 +31,11 @@ public class BookStoreSteps {
 
     @When("^I send a \"([^\"]*)\" request to \"([^\"]*)\"$")
     public void i_send_a_get_request_to_(String method, String endpoint){
-        testContext.setResponse(ApiClient.sendRequest(method, endpoint,
-                testContext.AddHeaders("application/json"),null));
+        testContext.setResponse(ApiClient.sendRequest(
+                method,
+                endpoint,
+                testContext.AddHeaders("application/json", false),
+                null));
     }
 
     @And("I send a {string} request to {string} with {string}")
@@ -45,7 +48,7 @@ public class BookStoreSteps {
         } catch (Exception e) {
             throw new RuntimeException("Failed to deserialize response", e);
         }
-        testContext.setResponse(ApiClient.sendRequest(method, endpoint + body + isbn, testContext.AddHeaders("application/json"),null));
+        testContext.setResponse(ApiClient.sendRequest(method, endpoint + body + isbn, testContext.AddHeaders("application/json", false),null));
     }
 
     @Then("^I should receive a (\\d+) OK response$")

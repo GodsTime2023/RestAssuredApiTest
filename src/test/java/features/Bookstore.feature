@@ -23,3 +23,15 @@ Feature: Books Test
       | pages         | 234 |
       | description   | This pocket guide is the perfect on-the-job companion to Git, the distributed version control system. It provides a compact, readable introduction to Git for new users, as well as a reference to common commands and procedures for those of you with Git exp |
       | website       | http://chimera.labs.oreilly.com/books/1230000000561/index.html |
+
+  Scenario: Add list of Books to User
+    Given I have access to the Bookstore API
+    When I create a new user with credentials
+      | userName | testUser  |
+      | password | Test@1234 |
+    Then I should receive a 201 OK response
+    And I generate user token
+    When I send a "POST" request to "/BookStore/v1/Books" with body
+      | userId            | {0}                                                 |
+      | collectionOfIsbns | [{"isbn":"9781449325862"},{"isbn":"9781449331818"}] |
+    Then I should receive a 201 OK response
